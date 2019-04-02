@@ -103,7 +103,7 @@ class Client {
   }
 
   Future<SearchResult> search(String index, String type, Map query,
-      {int offset, int limit, bool fetchSource: false, Map suggest}) async {
+      {int offset, int limit, bool fetchSource: false, Map suggest, Map sort}) async {
     final path = [index, type, '_search'];
     final map = {
       '_source': fetchSource,
@@ -111,6 +111,7 @@ class Client {
       'from': offset,
       'size': limit,
       'suggest': suggest,
+      'sort': sort,
     };
     map.removeWhere((k, v) => v == null);
     final rs = await _transport.send(new Request('POST', path,
